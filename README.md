@@ -1,14 +1,27 @@
-hipergeo
-========
+DESCRIPTION
+===========
 
-Hypergeometric package for Maxima featuring Sister Celine, Gosper, Zeilberger, WZ, and WZ Certificate.
+Hypergeometric package for Maxima featuring:
+- Sister Celine implementation;
+- friendly link to Gosper implementation from `zeilberger' package;
+- Builds full recurrence from Zeilberger's algorithm;
+- WZ and WZ certificate implementation.
+
+Please, refer to "A=B" (Petkovsek, Wilf, Zeilberger) book for algorithms.
 
 
 USAGE
 =====
 
 In Maxima, type
-> load('hipergeo.mac');
+
+> > load('hipergeo.mac');
+
 in order to load the package.
 
-Documentation to be done yet.
+
+TODO
+====
+
+- Translate code to english.
+- Documentation.
