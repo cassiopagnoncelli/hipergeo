@@ -10,12 +10,12 @@ Hypergeometric package for Maxima featuring:
 Please, refer to "A=B" (Petkovsek, Wilf, Zeilberger) book for algorithms.
 
 
-USAGE
-=====
+LOADING
+=======
 
 In Maxima, type
 
-> > load('hipergeo.mac');
+> load('hipergeo.mac');
 
 in order to load the package.
 
@@ -25,3 +25,5 @@ TODO
 
 - Translate code to english.
 - Documentation.
+- Build a standard Maxima package.
+- Fix WZ.
