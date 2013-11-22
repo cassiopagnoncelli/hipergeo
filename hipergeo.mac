@@ -1,0 +1,173 @@
+/*
+A fazer:
+- arrumar WZ
+*/
+load(zeilberger);
+
+/*
+   celineIJ(F, n, k, I, J):
+     Devolve os coeficientes a[i,j] que ajustam
+       sum(sum(a[i,j] F(n-j,k-i), i=0..I), j=0..J) = 0,
+     onde F(n,k) é um termo duplamente hipergeométrico em (n,k).
+   
+   Exemplo.
+   > F(n,k) := k * binomial(n,k);
+   > celineIJ(F,n,k,1,1);
+*/
+celineIJ(F, n, k, I, J) := block([rec, numerador, coef, eq, vars, solucao, s, troca],
+  rec : ratsimp(minfactorial(
+    sum(sum(a[i,j]*makefact(F(n-j, k-i)),j,0,J),i,0,I) / makefact(F(n,k)))),
+  numerador : collectterms(expand(num(rec)), k),
+  coef : map(lambda([grau], coeff(numerador, k, grau)),
+             makelist(g, g, 0, hipow(numerador, k))),
+  eq : map(lambda([x], x = 0), coef),
+  vars : flatten(makelist(makelist(a[i,j], j, 0, J), i, 0, I)),
+  solucao : solve(eq, vars)[1],
+  s : makelist(makelist(rhs(solucao[i*(J+1) + j + 1]), j, 0, J), i, 0, I),
+  troca : makelist(%rnum_list[i] = K[i], i, 1, length(%rnum_list)),
+  solucao : sublis(troca, s),
+  return(solucao)
+);
+
+/*
+   celinerec(M):
+     Constrói a recorrência
+       sum(a_j f(n-j), j=0..J) = 0
+     a partir da matriz calculada por celineIJ.
+   
+   Exemplo.
+   > F(n,k) := k * binomial(n,k);
+   > M : celineIJ(F,n,k,1,1);
+   > celinerec(M);
+*/
+celinerec(M) := block([f, Aj, rec],
+  Aj : map(lambda([lista], sum(lista[i], i, 1, length(lista))), M),
+  rec : sum(Aj[1+j] * f[n-j], j, 0, length(Aj)-1) = 0,
+  return(rec)
+);
+
+/*
+   gosper(t, n)
+     Busca a diferença z(n) satisfazendo z(n+1) - z(n) = t(n), onde
+     z(n) e t(n) são termos hipergeométricos em n.
+     Esta função é apenas um alias para `AntiDifference' no pacote
+     `zeilberger'.
+ 
+   Exemplo.
+   > t(k) := k * k!;
+   > gosper(t, k);
+*/
+gosper(t, n) :=
+  minfactorial(ratsimp(AntiDifference(t(n), n)));
+
+/*
+   cmm(pol, var):
+     Devolve o coeficiente do maior monômio do polinômio `pol' dado na
+     variável `var'.
+   
+   Exemplo.
+   > pol : 3*n^3 - (x-3)*(x+1)*(x-2);
+   > cmm(pol, n);
+*/
+cmm(pol, var) :=
+  coeff(expand(pol), var, hipow(expand(pol), var));
+
+/*
+   gosperzfg(t, n):
+     Coloca a razão discreta t(n+1)/t(n) na forma Z * f(n)/g(n), onde
+     f(n) e g(n) são polinômios mônicos e primos entre si de tal modo
+     que os coeficientes das maiores potências de f e g são
+     compensados na constante Z.
+   
+   Exemplo.
+   > t(n) := binomial(2*n,n) * 2^n;
+   > gosperzfg(t, n);
+*/
+gosperzfg(t, n) := block([r, F, G, f, g, Z],
+  r : ratsimp(minfactorial(makefact(t(n+1) / t(n)))),
+  F : num(r),
+  G : denom(r),
+  f : expand(ratsimp(F / cmm(F, n))),
+  g : expand(ratsimp(G / cmm(G, n))),
+  Z : cmm(F, n) / cmm(G, n),
+  return([Z, f, g])
+);
+
+/*
+   certificado(F, n, k):
+     Obtém a função racional R(n,k) = G(n,k) F(n,k) a partir da
+     equação de WZ,
+       (N-1) F(n,k) = (K-1) G(n,k),
+     onde N e K são operadores satisfazendo
+       N f(n) = f(n+1) - f(n)
+       K f(k) = f(k+1) - f(k).
+   
+   Exemplo.
+   > F(n,k) := binomial(n,k) * 2^(-n);
+   > certificado(F,n,k);
+   
+   Exemplo.
+   > F(n,k) := binomial(n,k)^2 / binomial(2*n,n);
+   > certificado(F,n,k);
+*/
+certificado(F, n, k) := block([f, G, R],
+  f(k) := ratsimp(makefact(F(n+1,k) - F(n,k))),
+  G(n,k) := gosper(f, k),
+  if G(n,k) = NON_HYPERGEOMETRIC then return(NAO),
+  R(n,k) := G(n,k) / F(n,k),
+  return(R(n,k))
+);
+
+/*
+   wz(t, s, n, k)
+     Verifica se sum(t(n,k), k=-Inf..Inf) = s(n),
+     onde t(n,k) é duplamente hipergeométrico e s(n) é
+     hipergeométrico.
+   
+   Exemplo.
+   > t(n,k) := binomial(n,k);
+   > s(n) := 2^n;
+   > wz(t,s,n,k);
+*/
+wz(t,s,n,k) := block([],
+  if equal(s(n), 0) then F(n,k) := t(n,k) else F(n,k) := t(n,k) / s(n),
+  wzf(k) := ratsimp(makefact(F(n+1,k) - F(n,k))),
+  wzG(n,k) := AntiDifference(wzf(k), k),
+  
+  if equal(wzG(n,k), NON_HYPERGEOMETRIC) then
+    return(NAO_CONSEGUI_PROVAR),
+  
+  if not(equal(
+    ratsimp(minfactorial(makefact(F(n+1,k)-F(n,k)-G(n,k+1)+G(n,k)))),
+    0))
+  then
+    return(NAO),
+  
+  if ((equal(F(0,k), 0) and equal(s(n), 0)) or
+      (equal(F(0,k), 1) and not(equal(s(n),0))))
+  then
+    return(SIM)
+  else
+    return(NAO)
+);
+
+/*
+   zeilbergerrec(F, n, k):
+     Monta a recorrência da forma
+       a_0 F(n,k) + a_1 F(n+1,k) + ... + a_J F(n+j,k) = G(n,k+1) - G(n,k)
+     encontrada pelo algoritmo de Zeilberger (no pacote zeilberger).
+   
+   Exemplo.
+   > F(n,k) := binomial(n,k)^2;
+   > zeilbergerrec(F,n,k);
+*/
+zeilbergerrec(F, n, k) := block([],
+  solucoes : Zeilberger(F(n,k), k, n),
+  if length(solucoes) = 0 then return(ZEILBERGER_FALHOU),
+  R(n,k) := solucoes[1][1],
+  Aj : solucoes[1][2],
+  G(n,k) := R(n,k) * F(n,k),
+  esquerdo : sum(Aj[j] * F[n+j,k], j, 1, length(Aj)),
+  direito  : G(n,k+1) - G(n,k),
+  return(esquerdo = direito)
+);
