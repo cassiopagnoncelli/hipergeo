@@ -15,7 +15,7 @@ Maxima package to solve hypergeometric sums.
 
 ## Description
 
-`hipergeo' is a hypergeometric package for the computer algebra system Maxima featuring:
+__hipergeo__ is a hypergeometric package for the computer algebra system Maxima featuring:
 - Sister Celine implementation;
 - friendly link to Gosper implementation from `zeilberger' package;
 - Builds full recurrence from Zeilberger's algorithm;
@@ -24,7 +24,7 @@ Maxima package to solve hypergeometric sums.
 Please, refer to the seminal [A=B book](http://www.amazon.com/A-B-Marko-Petkovsek/dp/1568810636) by
 Petkovsek, Wilf and Zeilberger for algorithms.
 
-Moreover, you can refer to my __dissertation-pt_BR.pdf__ for portuguese
+Moreover, you can refer to my _dissertation-pt_BR.pdf_ for portuguese
 documentation. Here, you have practical introduction to hypergeometric
 summation 100% Maxima-oriented with some level of deepness on the algorithms
 throughout the text.
