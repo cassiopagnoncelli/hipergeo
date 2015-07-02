@@ -1,7 +1,23 @@
-DESCRIPTION
+Suppose your career depends on solving equations like
+
+![Equation 1](./img/eq1.png)
+
+or more intimidating ones as
+
+![Equation 2](./img/eq2.png)
+
+and your magic tricks toolbox fail to handle it.
+What is the last resort?
+
+Synopsis
+========
+
+Maxima package to solve hypergeometric sums.
+
+Description
 ===========
 
-Hypergeometric package for Maxima featuring:
+`hipergeo' is a hypergeometric package for the computer algebra system Maxima featuring:
 - Sister Celine implementation;
 - friendly link to Gosper implementation from `zeilberger' package;
 - Builds full recurrence from Zeilberger's algorithm;
@@ -15,8 +31,8 @@ summation 100% Maxima-oriented with some level of deepness on the algorithms
 throughout the text.
 
 
-LOADING
-=======
+Load the library
+================
 
 In Maxima, type
 
@@ -25,8 +41,7 @@ In Maxima, type
 in order to load the package.
 
 
-TODO
-====
+To-do
+=====
 
-- Build a standard Maxima package.
 - Fix WZ.
