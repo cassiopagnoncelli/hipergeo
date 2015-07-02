@@ -9,13 +9,11 @@ or more intimidating ones as
 and your magic tricks toolbox fail to handle it.
 What is the last resort?
 
-Synopsis
-========
+## Synopsis
 
 Maxima package to solve hypergeometric sums.
 
-Description
-===========
+## Description
 
 `hipergeo' is a hypergeometric package for the computer algebra system Maxima featuring:
 - Sister Celine implementation;
@@ -23,25 +21,31 @@ Description
 - Builds full recurrence from Zeilberger's algorithm;
 - WZ and WZ certificate implementation.
 
-Please, refer to "A=B" (Petkovsek, Wilf, Zeilberger) book for algorithms.
+Please, refer to the seminal [A=B book](http://www.amazon.com/A-B-Marko-Petkovsek/dp/1568810636) by
+Petkovsek, Wilf and Zeilberger for algorithms.
 
-Moreover, you can refer to `documentation-pt\_BR.pdf' for portuguese
+Moreover, you can refer to my __dissertation-pt_BR.pdf__ for portuguese
 documentation. Here, you have practical introduction to hypergeometric
 summation 100% Maxima-oriented with some level of deepness on the algorithms
 throughout the text.
 
 
-Load the library
-================
+## Using the library
 
 In Maxima, type
 
+```c
 > load('hipergeo.mac');
+```
 
 in order to load the package.
 
 
-To-do
-=====
+## To-do and bugs
 
-- Fix WZ.
+To-do list:
+
+1. Fix WZ method for some instances.
+
+Any help is appreciated, if you find any error please contact or send a push
+request and I will be delighted to cite your amendment.
