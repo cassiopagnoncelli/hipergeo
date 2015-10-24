@@ -1,0 +1,130 @@
+load(zeilberger);
+
+/*
+   celineIJ(F, n, k, I, J):
+     Returns a[i,j] coefficients fitting
+       sum(sum(a[i,j] F(n-j,k-i), i=0..I), j=0..J) = 0,
+     where F(n,k) is a doubly-hypergeometric term in (n,k).
+*/
+celineIJ(F, n, k, I, J) := block(
+  [rec, numerador, coef, eq, vars, solucao, s, troca],
+  rec : ratsimp(minfactorial(
+    sum(sum(a[i,j]*makefact(F(n-j, k-i)),j,0,J),i,0,I) / makefact(F(n,k)))),
+  numerator : collectterms(expand(num(rec)), k),
+  coef : map(lambda([grau], coeff(numerator, k, grau)),
+             makelist(g, g, 0, hipow(numerator, k))),
+  eq : map(lambda([x], x = 0), coef),
+  vars : flatten(makelist(makelist(a[i,j], j, 0, J), i, 0, I)),
+  solution : solve(eq, vars)[1],
+  s : makelist(makelist(rhs(solution[i*(J+1) + j + 1]), j, 0, J), i, 0, I),
+  exchange : makelist(%rnum_list[i] = K[i], i, 1, length(%rnum_list)),
+  solution : sublis(exchange, s),
+  return(solution)
+);
+
+/*
+   celinerec(M):
+     Builds up recurrence sum(a_j f(n-j), j=0..J) = 0 out of celineIJ output.
+*/
+celinerec(M) := block([f, Aj, rec],
+  Aj : map(lambda([list], sum(list[i], i, 1, length(list))), M),
+  rec : sum(Aj[1+j] * f[n-j], j, 0, length(Aj)-1) = 0,
+  return(rec)
+);
+
+/*
+   gosper(t, n)
+     Seeks for the difference z(n) satisfying z(n+1) - z(n) = t(n)
+     wherein both z(n) and t(n) are hypergeometric terms in n.
+     
+     (This function is merely a fancy shortcut to `AntiDifference' at
+     zeilberger package.)
+*/
+gosper(t, n) :=
+  minfactorial(ratsimp(AntiDifference(t(n), n)));
+
+/*
+   hpc(pol, var):
+     Returns highest power's coefficient off of polynomial `pol' w.r.t. `var'.
+*/
+hpc(pol, var) :=
+  coeff(expand(pol), var, hipow(expand(pol), var));
+
+/*
+   gosperzfg(t, n):
+     Rewrites t(n+1)/t(n) into standard form Z * f(n)/g(n) where
+     f(n) and g(n) are monic, relatively prime polynomials in such a
+     way f's and g's highest monomial's coefficients are compensated
+     in Z.
+*/
+gosperzfg(t, n) := block([r, F, G, f, g, Z],
+  r : ratsimp(minfactorial(makefact(t(n+1) / t(n)))),
+  F : num(r),
+  G : denom(r),
+  f : expand(ratsimp(F / hpc(F, n))),
+  g : expand(ratsimp(G / hpc(G, n))),
+  Z : hpc(F, n) / hpc(G, n),
+  return([Z, f, g])
+);
+
+/*
+   certificate(F, n, k):
+     Obtains the rational function R(n,k) = G(n,k) F(n,k) out of
+     WZ's equation,
+       (N-1) F(n,k) = (K-1) G(n,k),
+     where N and K are standard finite difference calculus' backward
+     difference operators,
+       N f(n) = f(n+1) - f(n)
+       K f(k) = f(k+1) - f(k).
+*/
+certificate(F, n, k) := block([f, G, R],
+  f(k) := ratsimp(makefact(F(n+1,k) - F(n,k))),
+  G(n,k) := gosper(f, k),
+  if G(n,k) = NON_HYPERGEOMETRIC then return(NO),
+  R(n,k) := G(n,k) / F(n,k),
+  return(R(n,k))
+);
+
+/*
+   wz(t, s, n, k)
+     Checks whether
+       sum(t(n,k), k=-Inf..Inf) = s(n),
+     where t(n,k) is doubly-hypergeometric and s(n) is hypergeometric.
+*/
+wz(t,s,n,k) := block([],
+  if equal(s(n), 0) then F(n,k) := t(n,k) else F(n,k) := t(n,k) / s(n),
+  wzf(k) := ratsimp(makefact(F(n+1,k) - F(n,k))),
+  wzG(n,k) := AntiDifference(wzf(k), k),
+  
+  if equal(wzG(n,k), NON_HYPERGEOMETRIC) then
+    return(COULDNT_PROVE___NON_HYPERGEOMETRIC),
+  
+  if not(equal(
+    ratsimp(minfactorial(makefact(F(n+1,k)-F(n,k)-G(n,k+1)+G(n,k)))),
+    0))
+  then
+    return(NO),
+  
+  if ((equal(F(0,k), 0) and equal(s(n), 0)) or
+      (equal(F(0,k), 1) and not(equal(s(n),0))))
+  then
+    return(YES)
+  else
+    return(NO)
+);
+
+/*
+   zeilbergerrec(F, n, k):
+     Provided Zeilberger's algorithm return, returns the special recurrence
+       a_0 F(n,k) + a_1 F(n+1,k) + ... + a_J F(n+j,k) = G(n,k+1) - G(n,k).
+*/
+zeilbergerrec(F, n, k) := block([],
+  solutions : Zeilberger(F(n,k), k, n),
+  if length(solutions) = 0 then return(ZEILBERGER_FAILED),
+  R(n,k) := solutions[1][1],
+  Aj : solutions[1][2],
+  G(n,k) := R(n,k) * F(n,k),
+  left : sum(Aj[j] * F[n+j,k], j, 1, length(Aj)),
+  right : G(n,k+1) - G(n,k),
+  return(left = right)
+);
