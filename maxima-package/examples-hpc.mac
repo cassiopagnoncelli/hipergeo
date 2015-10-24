@@ -1,0 +1,5 @@
+load("hipergeo.mac")$
+display2d:false$
+
+pol : 3*n^3 - (x-3)*(x+1)*(x-2)$
+hpc(pol, n);

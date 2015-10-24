@@ -1,0 +1,13 @@
+load("hipergeo.mac")$
+display2d:false$
+
+F(n,k) := binomial(n,k) * 2^(-n)$
+certificate(F,n,k);
+
+F(n,k) := binomial(n,k)^2 / binomial(2*n,n)$
+certificate(F,n,k);
+
+/* sum(t(n,k), k) == s(n) ? */
+t(n,k) := binomial(n,k)$
+s(n) := 2^n$
+wz(t,s,n,k);
