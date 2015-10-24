@@ -1,0 +1,8 @@
+load("hipergeo.mac")$
+display2d:false$
+
+F(n,k) := k * binomial(n,k)$
+
+M : celineIJ(F,n,k,1,1);
+
+celinerec(M);
