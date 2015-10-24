@@ -1,10 +1,10 @@
 Suppose your career depends on solving equations like
 
-![Equation 1](./img/eq1.png)
+![Equation 1](http://s9.postimg.org/i1jtfiy57/eq1.png)
 
 or more intimidating ones as
 
-![Equation 2](./img/eq2.png)
+![Equation 2](http://s27.postimg.org/pwodij5bj/eq2.png)
 
 and your magic tricks toolbox fail to handle it.
 What is the last resort?
