@@ -1,0 +1,5 @@
+load("hipergeo.mac")$
+display2d:false$
+
+F(n,k) := binomial(n,k)^2$
+zeilbergerrec(F,n,k);
