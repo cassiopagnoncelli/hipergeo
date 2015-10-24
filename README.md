@@ -20,15 +20,16 @@ __hipergeo__ is a hypergeometric package for the computer algebra system Maxima 
 - Sister Celine implementation;
 - friendly link to Gosper implementation from `zeilberger' package;
 - Builds full recurrence from Zeilberger's algorithm;
-- WZ and WZ certificate implementation.
+- Wilf-Zeilberger proof machinery along with WZ certificate implementation.
 
-For portuguese readers, you can refer to [base text](./dissertation-pt_BR.pdf) for usage, algorithms,
+For Portuguese readers, you can refer to [base text](./dissertation-pt_BR.pdf) for usage, algorithms,
 theory, etc.
 Here you will have a pragmatic introduction to hypergeometric summation, 100% Maxima-oriented.
 
-Moreover, you can refer to the seminal
+As for English readers, you can refer to the seminal
 [A=B book](http://www.amazon.com/A-B-Marko-Petkovsek/dp/1568810636)
 by Petkovsek, Wilf and Zeilberger for more details on the algorithms and a deeper insight into the theory.
+(This book uses Maple and Mathematica computer algebra systems rather than open source Maxima.)
 
 ## Using the library
 
