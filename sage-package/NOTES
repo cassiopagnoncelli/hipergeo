@@ -1,0 +1,19 @@
+1) O OpenSUSE usa a libffi na versão 4 enquanto outras distros rodam na versão 6,
+então é necessário criar o link manualmente
+
+  ln -s /usr/lib64/libffi.so /opt/sage/libffi.so.6
+
+2) O Sage tem potencial pra compreender a saída do Maxima se utilizar o Maxima no modo
+
+  > maxima('display2d:false')
+
+Vide
+https://groups.google.com/forum/#!topic/sage-support/91g29tfgqiw
+
+3) Chamadas para o Maxima que não funcionam:
+
+gosper("k*k!")
+gosper(tk)
+maxima(gosper(tk))
+maxima.apply(gosper, [tk])
+# maxima.call ?
