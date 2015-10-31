@@ -22,7 +22,7 @@ __hipergeo__ is a hypergeometric package for the computer algebra system Maxima 
 - Builds full recurrence from Zeilberger's algorithm;
 - Wilf-Zeilberger proof machinery along with WZ certificate implementation.
 
-For Portuguese readers, you can refer to [base text](./dissertation-pt_BR.pdf) for usage, algorithms,
+For Portuguese readers, you can refer to [base text](./cassio-pagnoncelli.pdf) for usage, algorithms,
 theory, etc.
 Here you will have a pragmatic introduction to hypergeometric summation, 100% Maxima-oriented.
 
