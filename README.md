@@ -41,5 +41,14 @@ In Maxima, type
 
 in order to load the package and browse the examples in the same directory.
 
+First example can merely be solved by first finding the anti-difference of the summand,
+
+```c
+> summand(k) := k*k!;
+> antidiff : gosper(summand, k);
+k!
+```
+and, by applying the fundamental theorem of calculus, that sum becomes n! - 1.
+
 Any help is appreciated, should you find any error please contact or send a push
 request and I will be delighted to cite your amendment.
