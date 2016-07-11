@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Hipergeo by cassiopagnoncelli</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Hipergeo</h1>
+        <p>Hypergeometric package for Maxima featuring Sister Celine, Gosper, Zeilberger, WZ, and WZ Certificate.</p>
+
+        <p class="view"><a href="https://github.com/cassiopagnoncelli/hipergeo">View the Project on GitHub <small>cassiopagnoncelli/hipergeo</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/cassiopagnoncelli/hipergeo/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/cassiopagnoncelli/hipergeo/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/cassiopagnoncelli/hipergeo">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <p>Suppose your career depends on solving sums like</p>
+
+<p><img src="http://s9.postimg.org/i1jtfiy57/eq1.png" alt="Equation 1"></p>
+
+<p>or more intimidating ones as</p>
+
+<p><img src="http://s27.postimg.org/pwodij5bj/eq2.png" alt="Equation 2"></p>
+
+<p>and your magic tricks toolbox fail to handle it.
+What is the last resort?</p>
+
+<h2>
+<a id="synopsis" class="anchor" href="#synopsis" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Synopsis</h2>
+
+<p>I developed a Maxima package to either solve hypergeometric sums or prove they cannot be solved.</p>
+
+<h2>
+<a id="description" class="anchor" href="#description" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Description</h2>
+
+<p><strong>hipergeo</strong> is a hypergeometric package for the computer algebra system Maxima featuring:</p>
+
+<ul>
+<li>Sister Celine implementation;</li>
+<li>friendly link to Gosper implementation from `zeilberger' package;</li>
+<li>Builds full recurrence from Zeilberger's algorithm;</li>
+<li>Wilf-Zeilberger proof machinery along with WZ certificate implementation.</li>
+</ul>
+
+<p>For Portuguese readers, you can refer to <a href="./cassio-pagnoncelli.pdf">base text</a> for usage, algorithms,
+theory, etc.
+Here you will have a pragmatic introduction to hypergeometric summation, 100% Maxima-oriented.</p>
+
+<p>As for English readers, you can refer to the seminal
+<a href="http://www.amazon.com/A-B-Marko-Petkovsek/dp/1568810636">A=B book</a>
+by Petkovsek, Wilf and Zeilberger for more details on the algorithms and a deeper insight into the theory.
+(This book uses Maple and Mathematica computer algebra systems rather than open source Maxima.)</p>
+
+<h2>
+<a id="using-the-library" class="anchor" href="#using-the-library" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using the library</h2>
+
+<p>In Maxima, type</p>
+
+<div class="highlight highlight-source-c"><pre>&gt; <span class="pl-en">load</span>(<span class="pl-s"><span class="pl-pds">'</span>hipergeo.mac<span class="pl-pds">'</span></span>);</pre></div>
+
+<p>in order to load the package and browse the examples in the same directory.</p>
+
+<p>First example can merely be solved by first finding the anti-difference of the summand,</p>
+
+<div class="highlight highlight-source-c"><pre>&gt; <span class="pl-en">summand</span>(k) := k*k!;
+&gt; antidiff : gosper(summand, k);
+k!</pre></div>
+
+<p>and, by applying the fundamental theorem of calculus, that sum becomes n! - 1.</p>
+
+<p>Any help is appreciated, should you find any error please contact or send a push
+request and I will be delighted to cite your amendment.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/cassiopagnoncelli">cassiopagnoncelli</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
