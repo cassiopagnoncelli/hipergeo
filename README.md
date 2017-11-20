@@ -50,5 +50,5 @@ k!
 ```
 and, by applying the fundamental theorem of calculus, that sum becomes n! - 1.
 
-Any help is appreciated, should you find any error please contact or send a push
+Any help is appreciated, should you find any error please contact or send a pull
 request and I will be delighted to cite your amendment.
